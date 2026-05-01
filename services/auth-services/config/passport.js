@@ -1,3 +1,4 @@
+// Google OAuth 2.0 configuration using Passport.js
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
