@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { blacklistedTokens } = require("../controllers/authController");
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -17,8 +18,14 @@ const verifyToken = (req, res, next) => {
     });
   }
 
+  if (blacklistedTokens.includes(token)) {
+    return res.status(401).json({
+      message: "Token already logged out",
+    });
+  }
+
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
