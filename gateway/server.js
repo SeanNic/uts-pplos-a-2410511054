@@ -18,10 +18,20 @@ app.use(
 
 // Patient Service (Laravel nanti)
 app.use(
-  "/patients",
+  "/api/patient",
   createProxyMiddleware({
     target: "http://127.0.0.1:8000",
     changeOrigin: true,
+    pathRewrite: (path) => `/api${path}`,
+  })
+);
+
+app.use(
+  "/api/medical",
+  createProxyMiddleware({
+    target: "http://localhost:3003",
+    changeOrigin: true,
+    pathRewrite: (path) => `/api${path}`,
   })
 );
 
